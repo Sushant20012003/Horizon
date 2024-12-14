@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import connectDB from './utils/db.js';
+import userRoute from './routes/user.route.js';
 
 dotenv.config({});
 
@@ -14,12 +15,13 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cookieParser());                      //used to store cookie
 app.use(urlencoded({extended:true}));
+app.use(cors());
 
 
 
-app.get("/", (req, res)=>{
-    res.send("Helllo from server!");
-});
+//routing
+app.use('/api/v1/user', userRoute);
+
 
 
 app.listen(PORT, ()=>{
