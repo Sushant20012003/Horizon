@@ -39,7 +39,7 @@ export const login = async(req, res)=>{
             return res.status(401).send({message:"Something is missing, please check!", success:false})
         }
 
-        let user = await User.findOne({email});
+        let user = await User.findOne({email}).populate({path:'posts'});
         if(!user) {
             return res.status(401).send({message:"Incorrect email or password!"});
         }
@@ -97,18 +97,21 @@ export const editProfile = async(req, res)=> {
         const profilePicture = req.file;
         let cloudResponse;
 
+
+        //upload to cloudinary
         if (profilePicture) {
             const fileUri = getDataUri(profilePicture);           //this is basically image path
-                cloudResponse = await cloudinary.uploader.upload(fileUri, {
-                folder: "ig-clone"
+            cloudResponse = await cloudinary.uploader.upload(fileUri, {
+                folder: "ig-clone/profilePictures"
             });
         }
 
+        //updating user
         if(bio) user.bio = bio;
         if(gender) user.gender= gender;
         if(profilePicture) user.profilePicture = cloudResponse.secure_url;
 
-        await user.save();       //*** 
+        await user.save();       //*** save updated user in database
 
         return res.status(200).json({message:"Profile udpated successfully!", success:true, user});
 
@@ -122,7 +125,7 @@ export const editProfile = async(req, res)=> {
 
 export const getSuggestedUsers = async(req, res)=>{
     try {
-        const users = await User.find({_id:{$ne:req.id}});
+        const users = await User.find({_id:{$ne:req.id}});          //$ne -> not equal to
         if(!users) {
             return res.status(400).json({message: "Currently no suggested users!", success:false});
         }
