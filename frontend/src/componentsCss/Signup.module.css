@@ -1,0 +1,137 @@
+/* Scoped styles for the Signup component */
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #d46a6a, #567ebd);
+}
+
+.formContainer {
+  background: linear-gradient(135deg, #ffffff, #e8f1ff); /* Gradient for depth */
+  padding: 80px 50px;
+  border-radius: 5px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Strong shadow for 3D effect */
+  width: 100%;
+  max-width: 400px;
+  
+  transition: all 0.3s ease-in-out;
+}
+
+.formContainer:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
+}
+
+.header h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #34495e;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.header p {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+/* Input styling for all input types */
+.inputField {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 12px;
+  background: #f0f4fc;
+  font-size: 1rem;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.inputField:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(50, 51, 52, 0.5); /* Blue glow */
+}
+
+/* Button styling */
+.button {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #2d2d2e, #191c1f); /* Smooth gradient */
+  color: white;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(54, 55, 56, 0.3); /* Button shadow */
+  transition: all 0.5s ease-in-out; /* Smoother hover */
+}
+
+.button:hover {
+  background: linear-gradient(135deg, #48494a, #2c2d2e); /* Darker gradient on hover */
+  box-shadow: 0 12px 20px rgba(28, 28, 29, 0.4); /* Stronger shadow */
+}
+
+.button:active {
+  transform: translateY(5px);
+  box-shadow: 0 15px 30px rgba(99, 1, 82, 0.3);
+}
+
+.navigate {
+  padding-left: 10%;
+
+}
+.navigate a {
+  color: blue;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 30px 20px;
+    width: 80%; /* Adjust width for smaller screens */
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .inputField,
+  .button {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+  .navigate {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .formContainer {
+    padding: 10px 15px;
+    .header p {
+      font-size: 0.7rem;
+    }
+  }
+
+  .inputField,
+  .button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+}
+
+
+
+
