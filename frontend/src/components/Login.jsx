@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Login() {
   const [userData, setUserData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const loginHandler = async (e) => {
     e.preventDefault();
     if (!userData.email || !userData.password) {
       alert('Input fields are missing!');
+      return;
     }
     try {
-      let response = await fetch('http://localhost:8000/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      let response = await axios.post('http://localhost:8000/api/v1/user/login', userData, {
+        headers:{
+          'Content-Type':'application/json'
         },
-        body: JSON.stringify(userData),
+        withCredentials:true  // Include cookies with the request
       });
 
-      response = await response.json();
-      if (response.success) {
-        console.log(response.message);
+      if (response.data.success) {
+        console.log(response.data.message);
         setUserData({ email: '', password: '' });
+        navigate('/')
       }
+      else console.log(response.data.message);
+
     } catch (error) {
       console.log(error);
     }
   };
+
 
   return (
     <div className={styles.flex}>

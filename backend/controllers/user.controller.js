@@ -12,18 +12,27 @@ export const register = async(req, res)=>{
             return res.status(401).send({message:"Something is missing, please ckeck!", success:false});
         }
 
-        const user= await User.findOne({email});
+        let user= await User.findOne({email});
         if(user) {
             return res.status(401).send({message:"User already exits, try another email", success:false});
         }
 
         const hashedPassword  = await bcrypt.hash(password, 10);
-        await User.create({
+        user = await User.create({
             username,
             email,
             password: hashedPassword
         });
-        return res.status(201).send({message:"Account created successfully", success:true});
+        
+        user.password = undefined;
+
+        const token = await jwt.sign({userId:user._id}, process.env.SECRET_KEY, {expiresIn:'1d'});
+        return res.cookie('token', token, {httpOnly:true, sameSite:'strict',secure:false ,maxAge: 1*24*60*60*1000})
+        .send({
+            message: `Account created successfully`,
+            success:true, 
+            user
+        });
 
     } catch (error) {
         console.log(error);
@@ -52,7 +61,8 @@ export const login = async(req, res)=>{
         user.password = undefined;
 
         const token = await jwt.sign({userId:user._id}, process.env.SECRET_KEY, {expiresIn:'1d'});
-        return res.cookie('token', token, {httpOnly:true, sameSite:'strict', maxAge: 1*24*60*60*1000}).send({
+        return res.cookie('token', token, {httpOnly:true, sameSite:'strict',secure:false ,maxAge: 1*24*60*60*1000})
+        .send({
             message: `Welcome back ${user.username}`,
             success:true, 
             user

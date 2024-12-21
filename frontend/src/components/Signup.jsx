@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup() {
     const [userData, setUserData] = useState({ username: '', email: '', password: '' });
+    const navigate= useNavigate();
 
     const signupHandler = async (e) => {
         e.preventDefault();
         if (!userData.username || !userData.email || !userData.password) {
             alert('Input fields are missing!');
+            return;
         }
         try {
             let response = await fetch('http://localhost:8000/api/v1/user/register', {
@@ -23,6 +25,7 @@ export default function Signup() {
             if (response.success) {
                 console.log(response.message);
                 setUserData({ username: '', email: '', password: '' });
+                navigate('/');
             }
         } catch (error) {
             console.log(error);

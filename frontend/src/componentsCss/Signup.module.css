@@ -72,6 +72,7 @@
   cursor: pointer;
   box-shadow: 0 8px 15px rgba(54, 55, 56, 0.3); /* Button shadow */
   transition: all 0.5s ease-in-out; /* Smoother hover */
+  margin-bottom: 10px;
 }
 
 .button:hover {
@@ -115,6 +116,9 @@
   .navigate {
     font-size: 0.6rem;
   }
+  .button {
+    margin-bottom: 0px;
+  }
 }
 
 @media (max-height: 600px) {
@@ -129,7 +133,9 @@
   .button {
     font-size: 0.85rem;
     padding: 10px;
+    margin-bottom: 10px;
   }
+
 }
 
 

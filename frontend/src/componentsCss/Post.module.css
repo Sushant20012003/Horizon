@@ -1,0 +1,193 @@
+/* Post.module.css */
+
+/* Post Container */
+.postContainer {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    background-color: white;
+    color: black;
+    margin-top: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .avatar {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  
+  .moreOptionsButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Post Image */
+  .postImageContainer {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .postImage {
+    width: 100%;
+    object-fit: cover;
+    max-height: 500px;
+  }
+  
+  /* Actions */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+  
+  .leftActions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .actionButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .likedIcon {
+    stroke: red;
+    fill: red;
+  }
+  
+  .bookmarkedIcon {
+    fill: black;
+  }
+  
+  /* Likes Count */
+  .likesCount {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  /* Caption */
+  .caption {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Comments Dialog */
+  .dialogOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+  
+  .dialogBox {
+    display: flex;
+    max-width: 800px;
+    max-height: 60vh;
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .dialogContent {
+    display: flex;
+    width: 100%;
+  }
+  
+  .dialogLeft {
+    width: 50%;
+    background: black;
+  }
+  
+  .dialogImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .dialogRight {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .commentsList {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .comment {
+    margin-bottom: 0.5rem;
+  }
+  
+  .commentUsername {
+    font-weight: bold;
+  }
+  
+  .addCommentSection {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    padding: 0.5rem 0;
+  }
+  
+  .addCommentInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+  }
+  
+  .postCommentButton {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Bottom Sheet for Mobile */
+  .bottomSheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+  
+  .bottomSheetContent {
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
