@@ -1,12 +1,18 @@
 import React from 'react';
 import Post from './Post';
+import { useSelector } from 'react-redux';
+import store from '@/redux/store';
 
-export default function Posts({allPost}) {
+export default function Posts() {
+
+  const {posts}  = useSelector(store=>store.posts)
+  
+
   return (
     <div>
         {
-            allPost.map((item, index)=>(
-                <Post key={index} post={item} />
+            posts.map((post, index)=>(
+                <Post key={index} post={post} />
             ))
         }
     </div>

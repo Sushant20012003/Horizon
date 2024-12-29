@@ -1,30 +1,68 @@
 import { Heart, Home, LogOut, MessageCircle, PlusSquare, Search, TrendingUp } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthUser } from '@/redux/authSlice';
+import { useNavigate } from 'react-router-dom';
+import CreatePost from './CreatePost';
 
-const sidebarItems = [
-    { icon: <Home />, text: "Home" },
-    { icon: <Search />, text: "Search" },
-    { icon: <PlusSquare />, text: "Create" },
-    { icon: <TrendingUp />, text: "Explore" },
 
-    {
-        icon: (
-            <Avatar className="w-6 h-6">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-        ),
-        text: "Profile",
-    },
-    // Add a class to hide the Logout icon on mobile
-    { icon: <LogOut />, text: "Logout", hideOnMobile: true },
-];
 
 export default function LeftSidebar() {
 
-    const sidebarHandler = (actionType) => {
-        alert(actionType);
+    const {user} = useSelector(store=>store.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [openCreate, setOpenCreate] = useState(false);
+    
+    const sidebarItems = [
+        { icon: <Home />, text: "Home" },
+        { icon: <Search />, text: "Search" },
+        { icon: <PlusSquare />, text: "Create" },
+        { icon: <MessageCircle />, text: "Messages", hideOnMobile:true },
+        { icon: <Heart />, text: "Notifications", hideOnMobile:true },
+        { icon: <TrendingUp />, text: "Explore" },
+        {
+            icon: (
+                <Avatar className="w-6 h-6">
+                    <AvatarImage src={user?.profilePicture} />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+            ),
+            text: "Profile",
+        },
+        // Add a class to hide the Logout icon on mobile
+        { icon: <LogOut />, text: "Logout", hideOnMobile: true },
+    ];
+
+
+
+    const sidebarHandler = async(actionType) => {
+        if(actionType === "Logout") {
+            try {
+                let response = await fetch(`http://localhost:8000/api/v1/user/logout`, {
+                    method:'GET',
+                    credentials:'include'
+                });
+                response = await response.json();
+    
+                if(response.success){
+                    console.log(response.message);
+                    dispatch(setAuthUser(null));
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+            return;
+        }
+        if(actionType === "Create") {
+            setOpenCreate(true);
+            return;
+        }
+        alert(actionType)
+        
     }
 
     return (
@@ -35,8 +73,7 @@ export default function LeftSidebar() {
                 {sidebarItems.map((item, index) => (
                     <div
                         key={index}
-                        className={`flex items-center gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3 ${item.hideOnMobile ? "hidden lg:flex" : ""
-                            }`}
+                        className={`flex items-center gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3 ${item.hideOnMobile ? "hidden lg:flex" : ""}`}
                         onClick={() => sidebarHandler(item.text)}
                     >
                         <span className="text-gray-600">{item.icon}</span>
@@ -48,7 +85,7 @@ export default function LeftSidebar() {
             {/* Mobile layout */}
 
             {/* Top bar */}
-            <div className="sticky inset-x-0 top-0 flex justify-between items-center border-b border-gray-300 p-4 bg-white z-50 lg:hidden">
+            <div className="fixed inset-x-0 top-0 flex h-[50px] justify-between items-center border-b border-gray-300 p-4 bg-white z-50 lg:hidden">
                 {/* Left: LOGO */}
                 <h1 className="text-lg font-bold">LOGO</h1>
 
@@ -61,7 +98,7 @@ export default function LeftSidebar() {
                         <span>
                             <Heart />
                         </span>
-                        <span className="text-xs">Notification</span>
+                        
                     </div>
                     <div
                         className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
@@ -70,7 +107,7 @@ export default function LeftSidebar() {
                         <span>
                             <MessageCircle />
                         </span>
-                        <span className="text-xs">Messages</span>
+                        
                     </div>
                 </div>
             </div>
@@ -88,12 +125,12 @@ export default function LeftSidebar() {
                             onClick={() => sidebarHandler(item.text)}
                         >
                             <span>{item.icon}</span>
-                            <span className="text-xs">{item.text}</span>
+                            
                         </div>
                     ))}
             </div>
 
-
+            <CreatePost open={openCreate} setOpen={setOpenCreate} />
 
         </div>
 

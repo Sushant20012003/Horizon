@@ -50,12 +50,12 @@ export const login = async(req, res)=>{
 
         let user = await User.findOne({email}).populate({path:'posts'});
         if(!user) {
-            return res.status(401).send({message:"Incorrect email or password!"});
+            return res.status(401).send({message:"Incorrect email or password!", success:false});
         }
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if(!isPasswordMatch) {
-            return res.status(401).send({message:"Incorrect email or password!"});
+            return res.status(401).send({message:"Incorrect email or password!", success:false});
         }
 
         user.password = undefined;

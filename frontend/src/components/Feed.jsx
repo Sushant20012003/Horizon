@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Posts from './Posts';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPosts } from '@/redux/postSlice';
 
 export default function Feed() {
 
-    const [allPost, setAllPost] = useState([]);
+    const dispatch = useDispatch();
 
     const getAllPost = async () => {
         try {
-            let response = await axios.get('http://localhost:8000/api/v1/post/all', {
-                withCredentials:true
+            let response = await fetch('http://localhost:8000/api/v1/post/all',{
+                method: 'GET',
+                credentials:'include'
             });
-            if (response.data.success) {
-                console.log('Data fetched');
-                setAllPost(response.data.posts);
+            response = await response.json();
+            if (response.success) {
+                console.log("dispatched all post");
+                dispatch(setPosts(response.posts)); 
             }
-            else {
-                console.log(response.data.message);
-                
-            }
+            
+            
         } catch (error) {
             console.log(error);
 
@@ -30,8 +31,8 @@ export default function Feed() {
     }, []);
 
     return (
-        <div className='flex-1 my-8 flex flex-col items-center px-[5px] mb-16'>
-            <Posts allPost={allPost} />
+        <div className='flex-1 flex flex-col items-center px-[5px] mb-10 mt-14'>
+            <Posts />
         </div>
     )
 }

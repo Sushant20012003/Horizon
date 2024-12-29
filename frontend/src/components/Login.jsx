@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '@/redux/authSlice';
 
 export default function Login() {
   const [userData, setUserData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -14,19 +17,26 @@ export default function Login() {
       return;
     }
     try {
-      let response = await axios.post('http://localhost:8000/api/v1/user/login', userData, {
+      let response = await fetch('http://localhost:8000/api/v1/user/login', {
+        method:"POST",
         headers:{
-          'Content-Type':'application/json'
+          'Content-Type': 'application/json',
         },
-        withCredentials:true  // Include cookies with the request
+        credentials:'include',
+        body: JSON.stringify(userData),
       });
 
-      if (response.data.success) {
-        console.log(response.data.message);
+      response = await response.json();
+      
+      if (response.success) {
+        console.log(response.message);
         setUserData({ email: '', password: '' });
+        dispatch(setAuthUser(response.user));
         navigate('/')
       }
-      else console.log(response.data.message);
+      else {
+        alert(response.message);
+      }
 
     } catch (error) {
       console.log(error);

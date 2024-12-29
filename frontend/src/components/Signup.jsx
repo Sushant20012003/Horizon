@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '@/redux/authSlice';
 
 export default function Signup() {
     const [userData, setUserData] = useState({ username: '', email: '', password: '' });
     const navigate= useNavigate();
+    const dispatch = useDispatch();
 
     const signupHandler = async (e) => {
         e.preventDefault();
@@ -24,6 +27,7 @@ export default function Signup() {
             response = await response.json();
             if (response.success) {
                 console.log(response.message);
+                dispatch(setAuthUser(response.user));
                 setUserData({ username: '', email: '', password: '' });
                 navigate('/');
             }
