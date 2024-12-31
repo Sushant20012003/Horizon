@@ -22,9 +22,10 @@ const authSlice = createSlice({
         },
         setSuggestedUsers:(state, action) => {
             state.suggestedUsers = action.payload;
-        } 
+        },
+        
     }
 });
 
-export const { setAuthUser, bookmarkPost, setSuggestedUsers } = authSlice.actions;
+export const { setAuthUser, bookmarkPost, setSuggestedUsers} = authSlice.actions;
 export default authSlice.reducer;

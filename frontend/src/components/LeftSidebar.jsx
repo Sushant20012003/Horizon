@@ -61,6 +61,14 @@ export default function LeftSidebar() {
             setOpenCreate(true);
             return;
         }
+        if(actionType === 'Home') {
+            navigate('/');
+            return;
+        }
+        if(actionType === 'Profile') {
+            navigate(`/profile/${user._id}`);
+            return;
+        }
         alert(actionType)
         
     }

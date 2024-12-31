@@ -20,6 +20,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
 import { bookmarkPost } from "@/redux/authSlice";
 import { Badge } from "@/components/ui/badge"
+import { Link } from "react-router-dom";
 
 
 
@@ -158,11 +159,13 @@ const Post = ({ post }) => {
         <div className="lg:pl-60 mb-3 ">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
+                    <Link to={`/profile/${post.author._id}`}>
                     <Avatar className="size-7">
                         <AvatarImage src={post.author.profilePicture} alt="author_image" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <h1>{post.author.username}</h1>
+                    </Link>
+                    <Link to={`/profile/${post.author._id}`}><h1>{post.author.username}</h1></Link>
                     {
                         (post.author._id === user._id && displayWidth >768) && <Badge variant="secondary">Author</Badge>
                     }

@@ -15,8 +15,9 @@ import { comment } from 'postcss'
 import { useDispatch, useSelector } from 'react-redux'
 import store from '@/redux/store'
 import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
-import { bookmarkPost } from "@/redux/authSlice";
 import { RiPokerHeartsFill, RiPokerHeartsLine } from 'react-icons/ri'
+import { bookmarkUserProfilePost, commentUserProfilePost, deleteProfilePost, likeUserProfilePost } from '@/redux/profileSlice'
+import { bookmarkPost } from '@/redux/authSlice'
 
 export default function CommentDialog({ post, open, setOpen }) {
 
@@ -51,6 +52,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
             if (response.success) {
                 dispatch(addComment({ postId: post._id, comment: response.comment }));
+                dispatch(commentUserProfilePost({postId:post._id, comment: response.comment}));
                 setText("")
             }
             console.log(response.message);
@@ -64,6 +66,7 @@ export default function CommentDialog({ post, open, setOpen }) {
     const likeDislikePostHandler = async () => {
 
         dispatch(likeDislikePost({ userId: user._id, postId: post._id }));
+        dispatch(likeUserProfilePost({userId: user._id, postId: post._id}));
         try {
             let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/like`, {
                 method: "GET",
@@ -99,6 +102,7 @@ export default function CommentDialog({ post, open, setOpen }) {
             response = await response.json();
             if (response.success) {
                 dispatch(deletePost(post?._id));
+                dispatch(deleteProfilePost({postId:post._id}));
                 console.log(response.message);
                 setOpen(false);
             }
@@ -116,6 +120,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
     const addToFavoriteHandler = async () => {
         dispatch(bookmarkPost({ postId: post._id }));
+        dispatch(bookmarkUserProfilePost({post: post}));
         try {
             let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/bookmark`, {
                 method: 'POST',
@@ -152,7 +157,7 @@ export default function CommentDialog({ post, open, setOpen }) {
                                     <div className='flex items-center gap-2'>
                                         <Link>
                                             <Avatar className="size-7">
-                                                <AvatarImage src={post.author.profilePicture} alt="author_image" />
+                                                <AvatarImage src={post?.author.profilePicture} alt="author_image" />
                                                 <AvatarFallback>CN</AvatarFallback>
                                             </Avatar>
                                         </Link>
@@ -246,6 +251,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
                 <Dialog open={open}>
                     <DialogContent onInteractOutside={() => setOpen(false)} className="min-h-[300px] h-[60vh] w-[90%] max-w-[500px] p-0 m-0 " >
+                        <VisuallyHidden> <DialogTitle>My Dialog Title</DialogTitle> </VisuallyHidden>
                         <div className="flex flex-col w-full ">
                             <h1 className='flex justify-center w-full font-semibold text-base p-2'>Commnets</h1>
                             <hr />

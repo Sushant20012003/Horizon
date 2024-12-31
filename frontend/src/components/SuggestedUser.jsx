@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 export default function SuggestedUser() {
 
     const { suggestedUsers } = useSelector(store => store.auth);
+    
 
     return (
         <div className='mt-8 h-[270px] overflow-hidden w-[300px]'>
@@ -16,17 +17,18 @@ export default function SuggestedUser() {
             </div>
             <div className=''>
                 {
-                    suggestedUsers.map((user, index) => {
+                    suggestedUsers?.map((user, index) => {
                         return (
                             <div key={index} className="flex justify-between items-center mt-4">
                                 <div className="flex items-center gap-2">
+                                    <Link to={`/profile/${user._id}`}>
                                     <Avatar className="size-8">
                                         <AvatarImage src={user.profilePicture} alt="author_image" />
                                         <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <h1>{user.username}</h1>
+                                    </Avatar></Link>
+                                    <Link to={`/profile/${user._id}`}><h1>{user.username}</h1></Link>
                                 </div>
-                                <span className="text-sm font-medium text-blue-600">Follow</span>
+                                <span className="text-sm font-medium text-blue-600 hover:text-black">Follow</span>
                             </div>
                         )
 
