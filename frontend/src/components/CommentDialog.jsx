@@ -168,7 +168,7 @@ export default function CommentDialog({ post, open, setOpen }) {
                                             <DialogTrigger asChild>
                                                 <MoreHorizontal className="cursor-pointer" />
                                             </DialogTrigger>
-                                            <DialogContent className="flex flex-col items-center text-center text-sm rounded-xl">
+                                            <DialogContent className="flex flex-col items-center text-center text-sm rounded-xl w-[80%] md:w-[550px]">
                                                 {
                                                     !(post.author._id === user._id) && <button className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>
                                                 }

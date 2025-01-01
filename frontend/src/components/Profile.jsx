@@ -2,7 +2,7 @@ import useGetUserProfile from '@/hooks/useGetUserProfile'
 import store from '@/redux/store';
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -29,6 +29,7 @@ export default function Profile() {
 
   const [activePostId, setActivePostId] = useState(null);
   // const [showPost, setShowPost] = useState(false)            can not pass it in commentDialog it will change state all post .
+  const navigate = useNavigate();
 
   return (
     <div className='flex w-[100vw] justify-center md:pl-[15%]'>
@@ -46,7 +47,7 @@ export default function Profile() {
               {
                 isLoggedInUserProfile ?
                   <div className="flex gap-2">
-                    <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>Edit profile</button>
+                    <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={()=>navigate('/profile/edit')}>Edit profile</button>
                     <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>View archive</button>
                   </div>
                   : <div className=''>

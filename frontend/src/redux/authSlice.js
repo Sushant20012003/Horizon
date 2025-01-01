@@ -23,9 +23,13 @@ const authSlice = createSlice({
         setSuggestedUsers:(state, action) => {
             state.suggestedUsers = action.payload;
         },
-        
+        editProfile:(state, action)=> {
+            state.user.profilePicture = action.payload.profilePicture;
+            state.user.bio = action.payload.bio;
+            state.user.gender = action.payload.gender;
+        }
     }
 });
 
-export const { setAuthUser, bookmarkPost, setSuggestedUsers} = authSlice.actions;
+export const { setAuthUser, bookmarkPost, setSuggestedUsers, editProfile} = authSlice.actions;
 export default authSlice.reducer;

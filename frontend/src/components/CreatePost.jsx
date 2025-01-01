@@ -17,7 +17,6 @@ export default function CreatePost({ open, setOpen }) {
     const [imagePreview, setImagePreview] = useState("");
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const {posts} = useSelector(store=>store);
 
     const fileChangeHandler = async (e) => {
         const file = e.target.files?.[0];
