@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
+import store from '@/redux/store';
 
 export default function Login() {
   const [userData, setUserData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {user} = useSelector(store=>store.auth);
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -42,6 +44,11 @@ export default function Login() {
       console.log(error);
     }
   };
+
+
+  useEffect(()=>{
+    if(user) navigate('/');
+  },[]);
 
 
   return (

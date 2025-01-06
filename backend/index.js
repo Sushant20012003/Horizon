@@ -6,10 +6,11 @@ import connectDB from './utils/db.js';
 import userRoute from './routes/user.route.js';
 import postRoute from './routes/post.route.js';
 import messageRoute from './routes/message.route.js'
+import {app, server } from './socket/socket.js';
 
 dotenv.config({});
 
-const app= express();
+
 const PORT = process.env.PORT || 8000;
 
 
@@ -32,7 +33,7 @@ app.use('/api/v1/message', messageRoute);
 
 
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     connectDB();
     console.log(`Server running on the port ${PORT}...`);
     

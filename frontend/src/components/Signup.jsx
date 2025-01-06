@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
+import store from '@/redux/store';
 
 export default function Signup() {
     const [userData, setUserData] = useState({ username: '', email: '', password: '' });
     const navigate= useNavigate();
     const dispatch = useDispatch();
+    const {user} = useSelector(store=>store.auth);
 
     const signupHandler = async (e) => {
         e.preventDefault();
@@ -35,6 +37,10 @@ export default function Signup() {
             console.log(error);
         }
     };
+
+    useEffect(()=>{
+        if(user) navigate('/');
+      },[]);
 
     return (
         <div className={styles.flex}>

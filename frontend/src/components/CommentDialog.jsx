@@ -227,7 +227,7 @@ export default function CommentDialog({ post, open, setOpen }) {
                                     </div>
                                     <span className="font-medium block mb-2">{post.likes.length} likes</span>
                                     <div className="flex justify-between items-center border-t">
-                                        <input type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1" value={text} onChange={changeEventHandler} />
+                                        <input type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1 bg-white" value={text} onChange={changeEventHandler} />
                                         {
                                             text && <button className="text-blue-600 font-medium mr-3 " onClick={addCommentHandler}>Post</button>
                                         }
@@ -278,7 +278,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
                             </div>
                             <div className="flex justify-between items-center border-t ml-3">
-                                <input type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1" value={text} onChange={changeEventHandler} />
+                                <input type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1 bg-white" value={text} onChange={changeEventHandler} />
                                 {
                                     text && <button className="text-blue-600 font-medium mr-3" onClick={addCommentHandler}>Post</button>
                                 }

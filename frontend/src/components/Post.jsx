@@ -223,7 +223,7 @@ const Post = ({ post }) => {
             }
             <CommentDialog post={post} open={showComment} setOpen={setShowComment} />
             <div className="flex justify-between items-center">
-                <input type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1" value={text} onChange={changeEventHandler} />
+                <input  type="text" placeholder="Add a comment..." className="outline-none text-sm w-full mb-3 mt-1 bg-white" value={text} onChange={changeEventHandler} />
                 {
                     text && <button className="text-blue-600 font-medium"  onClick={addCommnetHandler}>Post</button>
                 }

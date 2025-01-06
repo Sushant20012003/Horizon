@@ -13,7 +13,6 @@ const useGetSuggestedUsers = async()=>{
 
     if(response.success) {
         console.log('fetched suggested users');
-        
         dispatch(setSuggestedUsers(response.users));
     }
 }

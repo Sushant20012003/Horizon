@@ -69,6 +69,10 @@ export default function LeftSidebar() {
             navigate(`/profile/${user._id}`);
             return;
         }
+        if(actionType === 'Messages') {
+            navigate('/chat');
+            return;
+        }
         alert(actionType)
         
     }
