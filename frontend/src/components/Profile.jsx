@@ -67,7 +67,7 @@ export default function Profile() {
             </div>
             <div>
               <Badge variant={'secondary'}>@{userProfile?.username}</Badge>
-              <pre>
+              <pre>  
                 {userProfile?.bio}
               </pre>
             </div>

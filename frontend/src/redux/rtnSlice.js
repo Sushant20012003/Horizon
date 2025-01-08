@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const rtnSlice = createSlice({
     name:'realTimeNotification',
     initialState:{
-        likeNotification:[]
+        likeNotification:[],
+        isNotificationVisible:false
     },
     reducers:{
         setLikeNotification:(state, action)=> {
@@ -14,10 +15,13 @@ const rtnSlice = createSlice({
             else {
                 state.likeNotification = state.likeNotification.filter((item)=>item.userId !== action.payload.userId);
             }
+        },
+        setIsNotificationVisible:(state, action) => {
+            state.isNotificationVisible = action.payload;
         }
     }
 });
 
 
-export const {setLikeNotification} = rtnSlice.actions;
+export const {setLikeNotification, setIsNotificationVisible} = rtnSlice.actions;
 export default rtnSlice.reducer;

@@ -97,12 +97,15 @@ export default function ChatPage() {
                                 </Avatar>
 
                                 <span className='text-lg'>{selectedParticipant.username}</span>
-                                <span className='size-3 rounded-full bg-green-600 absolute top-14 left-14'></span>
+                                {
+                                    onlineUsers.includes(selectedParticipant?._id) && <span className='size-3 rounded-full bg-green-600 absolute top-14 left-14'></span>
+                                }
+
                             </div>
                             <Messages selectedUser={selectedParticipant} />
                             <div className='pt-2'>
                                 <div className='flex w-[90%] justify-between px-5 py-2 border mx-auto rounded-2xl'>
-                                    <input type="text" placeholder='Message...' value={textMessage} onChange={(e) => setTextMessage(e.target.value)} className='focus:outline-none bg-white' />
+                                    <input type="text" placeholder='Message...' value={textMessage} onChange={(e) => setTextMessage(e.target.value)} className='focus:outline-none bg-white w-full' />
                                     <button onClick={() => sendMessageHandler(selectedParticipant?._id)} className='text-blue-600 active:text-blue-700 font-semibold'>Send</button>
                                 </div>
                             </div>

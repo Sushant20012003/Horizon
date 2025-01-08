@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import CreatePost from './CreatePost';
+import store from '@/redux/store';
+import { setIsNotificationVisible } from '@/redux/rtnSlice';
 
 
 
@@ -14,6 +16,7 @@ export default function LeftSidebar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [openCreate, setOpenCreate] = useState(false);
+    const {isNotificationVisible} = useSelector(store=>store.realTimeNotification);
     
     const sidebarItems = [
         { icon: <Home />, text: "Home" },
@@ -73,12 +76,16 @@ export default function LeftSidebar() {
             navigate('/chat');
             return;
         }
+        if(actionType === 'Notifications') {
+            dispatch(setIsNotificationVisible(!isNotificationVisible));
+            return;
+        }
         alert(actionType)
         
     }
 
     return (
-        <div className=''>
+        <div className='z-30'>
             {/* Sidebar for large screens */}
             <div className="fixed hidden lg:flex flex-col top-0 left-0 z-10 px-4 border-r border-gray-300 w-[16%] h-screen bg-white">
                 <h1 className="text-lg font-bold mb-4">LOGO</h1>
@@ -105,7 +112,7 @@ export default function LeftSidebar() {
                 <div className="flex gap-4">
                     <div
                         className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
-                        onClick={() => sidebarHandler('Notification')}
+                        onClick={() => sidebarHandler('Notifications')}
                     >
                         <span>
                             <Heart />

@@ -9,7 +9,7 @@ export default function Home() {
   useGetSuggestedUsers();
 
   return (
-    <div className='flex'>
+    <div className='flex z-1'>
       <div className='flex-grow'>
         <Feed />
         <Outlet />
