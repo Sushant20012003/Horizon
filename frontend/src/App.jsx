@@ -12,9 +12,10 @@ import store from './redux/store';
 import { useEffect } from 'react';
 import { setSocket } from './redux/socketSlice';
 import { setOnlineUsers } from './redux/chatSlice';
-import { setLikeNotification } from './redux/rtnSlice';
+import { setNotification } from './redux/rtnSlice';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotificationPage from './components/NotificationPage';
+import { setFollowerUser } from './redux/authSlice';
 
 const browserRouter = createBrowserRouter([
   {
@@ -72,8 +73,12 @@ function App() {
       });
 
       socketio.on('notification', (notification)=>{
-        dispatch(setLikeNotification(notification));
-      })
+        dispatch(setNotification(notification));
+        dispatch(setFollowerUser(notification.userId));
+        
+      });
+
+      
 
       return () => {
         socketio.close();

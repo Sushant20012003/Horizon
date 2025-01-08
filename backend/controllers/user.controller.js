@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import { populate } from "dotenv";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 
 export const register = async (req, res) => {
@@ -170,7 +171,7 @@ export const editProfile = async (req, res) => {
 
 export const getSuggestedUsers = async (req, res) => {
     try {
-        const users = await User.find({ _id: { $ne: req.id } });          //$ne -> not equal to
+        const users = await User.find({ _id: { $ne: req.id } }).limit(5);          //$ne -> not equal to,    using limit to find limited no of users
         if (!users) {
             return res.status(400).json({ message: "Currently no suggested users!", success: false });
         }
@@ -203,12 +204,24 @@ export const followOrUnfollow = async (req, res) => {
         }
 
         const isFollowing = user.following.includes(targetUserId);
+        const targetUserSocketId = getReceiverSocketId(targetUserId);
+        
 
         if (isFollowing) {
             await Promise.all([          //use when handling more than one document of mongodb
                 User.updateOne({ _id: userId }, { $pull: { following: targetUserId } }),
                 User.updateOne({ _id: targetUserId }, { $pull: { followers: userId } })
             ]);
+
+            // real time notification
+
+            const notification = {
+                type:'unfollow',
+                userDetails:user,
+                userId:userId
+            }
+            io.to(targetUserSocketId).emit('notification', notification);
+
             return res.status(200).json({ message: "Unfollowed successfully", success: true });
         }
         else {
@@ -216,6 +229,16 @@ export const followOrUnfollow = async (req, res) => {
                 User.updateOne({ _id: userId }, { $push: { following: targetUserId } }),
                 User.updateOne({ _id: targetUserId }, { $push: { followers: userId } })
             ]);
+
+            // real time notification
+
+            const notification = {
+                type:'follow',
+                userDetails:user,
+                userId:userId
+            }
+            io.to(targetUserSocketId).emit('notification', notification);
+
             return res.status(200).json({ message: "Followed successfully", success: true });
         }
 

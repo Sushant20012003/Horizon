@@ -1,27 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const rtnSlice = createSlice({
-    name:'realTimeNotification',
-    initialState:{
-        likeNotification:[],
-        isNotificationVisible:false
+    name: 'realTimeNotification',
+    initialState: {
+        notification: [], // Ensure this is initialized as an array
+        isNotificationVisible: false,
     },
-    reducers:{
-        setLikeNotification:(state, action)=> {
-            if(action.payload.type === 'like') {
-                state.likeNotification.push(action.payload);
+    reducers: {
+        setNotification: (state, action) => {
+            console.log(3);
+
+            // Initialize notifications if undefined (added safeguard)
+            if (!state.notification) {
+                state.notification = [];
             }
-            else {
-                state.likeNotification = state.likeNotification.filter((item)=>item.userId !== action.payload.userId);
+
+            if (action.payload.type === 'like' || action.payload.type === 'follow') {
+                state.notification.push(action.payload);
+            } else {
+                state.notification = state.notification.filter(
+                    (item) => item.userId !== action.payload.userId
+                );
             }
         },
-        setIsNotificationVisible:(state, action) => {
+        setIsNotificationVisible: (state, action) => {
             state.isNotificationVisible = action.payload;
-        }
-    }
+        },
+    },
 });
 
-
-export const {setLikeNotification, setIsNotificationVisible} = rtnSlice.actions;
+export const { setNotification, setIsNotificationVisible } = rtnSlice.actions;
 export default rtnSlice.reducer;

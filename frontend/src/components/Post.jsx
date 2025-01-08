@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import store from "@/redux/store";
 import { toast, ToastContainer } from "react-toastify";
 import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
-import { bookmarkPost } from "@/redux/authSlice";
+import { bookmarkPost, setFollowingUser } from "@/redux/authSlice";
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router-dom";
 
@@ -30,11 +30,12 @@ const Post = ({ post }) => {
 
     const [text, setText] = useState("");
     const [showComment, setShowComment] = useState(false);
-    const { user } = useSelector(store => store.auth);
+    const { user} = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const [open, setOpen]= useState(false);
     const [loading, setLoading] = useState(false);
     let [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+    
 
 
 
@@ -152,6 +153,30 @@ const Post = ({ post }) => {
             console.log(error);
         }
     }
+
+    const followUnfollowHandler = async()=>{
+        try {
+            let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${post.author._id}`, {
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                credentials:'include'
+            });
+
+            response = await response.json();
+
+            if(response.success) {
+                console.log(response.message);
+                dispatch(setFollowingUser(post.author._id));
+                
+            }
+
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
   
     
     
@@ -177,7 +202,7 @@ const Post = ({ post }) => {
                         </DialogTrigger>
                         <DialogContent className="flex flex-col items-center text-center text-sm rounded-xl w-[80%] md:w-[550px]" onInteractOutside={() => setOpen(false)}>
                             {
-                                !(user._id === post.author._id) && <button className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>
+                                !(user._id === post.author._id)? user.following.includes(post.author._id)?<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>:<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">{user.followers.includes(post.author._id)?'Follow Back':'Follow'}</button>:null
 
                             }
                             <button className="cursor-pointer w-full p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Add to favorites</button>

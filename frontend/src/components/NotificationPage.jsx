@@ -7,11 +7,14 @@ import { setIsNotificationVisible } from '@/redux/rtnSlice';
 
 export default function NotificationPage() {
 
-    const { likeNotification, isNotificationVisible } = useSelector(store => store.realTimeNotification);
-    console.log(likeNotification);
+    const { notification, isNotificationVisible } = useSelector(store => store.realTimeNotification);
     const navigate = useNavigate();
     const notificationRef = useRef(null);
     const dispatch = useDispatch();
+    console.log(4);
+    
+    console.log(notification);
+    
 
     // Handle click outside the notification box
     useEffect(() => {
@@ -44,15 +47,15 @@ export default function NotificationPage() {
                 <h2 className="text-2xl font-bold mb-4">Notification</h2>
                 <div className="flex flex-col gap-4">
                     {
-                        likeNotification.slice().reverse().map((notification) => {
+                        notification?.slice().reverse().map((notification, i) => {
                             return (
-                                <div className="flex justify-between">
+                                <div className="flex justify-between" key={i}>
                                     <div className="flex gap-2 items-center">
                                         <Avatar>
                                             <AvatarImage src={notification?.userDetails?.profilePicture} />
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
-                                        <p><span className='font-medium'>{notification?.userDetails?.username}</span>  <span className='font-thin'>liked your post.</span></p>
+                                        <p><span className='font-medium'>{notification?.userDetails?.username}</span>  <span className='font-thin'>{notification?.type === 'like'? 'liked your post.': 'following you.'}</span></p>
                                     </div>
                                     <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600'>Follow</button>
                                 </div>

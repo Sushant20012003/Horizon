@@ -1,7 +1,7 @@
 import useGetUserProfile from '@/hooks/useGetUserProfile'
 import store from '@/redux/store';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
@@ -11,6 +11,7 @@ import { LiaBookmark } from "react-icons/lia";
 import { FaRegHeart } from "react-icons/fa";
 import { FiMessageCircle } from "react-icons/fi";
 import CommentDialog from './CommentDialog';
+import { setFollowingUser } from '@/redux/authSlice';
 
 
 export default function Profile() {
@@ -21,15 +22,42 @@ export default function Profile() {
   useGetUserProfile(userId);
   const { userProfile } = useSelector(store => store.userProfile);
   const { user } = useSelector(store => store.auth);
-
+  const dispatch = useDispatch();
   const isLoggedInUserProfile = userProfile?._id === user?._id;
-  const isFollowing = userProfile?.followers.includes(user?._id);
+  const isFollowing = user.following.includes(userProfile?._id);
   const [activeTab, setActiveTab] = useState('posts');
   const displayedPost = activeTab === 'posts' ? userProfile?.posts : activeTab === 'saved' ? userProfile?.bookmarks : [];
 
   const [activePostId, setActivePostId] = useState(null);
   // const [showPost, setShowPost] = useState(false)            can not pass it in commentDialog it will change state all post .
   const navigate = useNavigate();
+
+
+  const followUnfollowHandler = async()=>{
+          try {
+              let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${userProfile?._id}`, {
+                  method:"POST",
+                  headers:{
+                      'Content-Type':'application/json'
+                  },
+                  credentials:'include'
+              });
+  
+              response = await response.json();
+  
+              if(response.success) {
+                  console.log(response.message);
+                  dispatch(setFollowingUser(userProfile?._id));
+                  
+              }
+  
+          } catch (error) {
+              console.log(error);
+              
+          }
+      }
+
+
 
   return (
     <div className='flex w-[100vw] justify-center md:pl-[15%]'>
@@ -48,13 +76,13 @@ export default function Profile() {
                 isLoggedInUserProfile ?
                   <div className="flex gap-2">
                     <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={()=>navigate('/profile/edit')}>Edit profile</button>
-                    <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>View archive</button>
+                  
                   </div>
                   : <div className=''>
                     {
                       isFollowing ?
-                        <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>Unfollow</button>
-                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600'>Follow</button>
+                        <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={followUnfollowHandler}>Unfollow</button>
+                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600' onClick={followUnfollowHandler}>{user.followers.includes(userProfile?._id)?'Follow Back':'Follow'}</button>
                     }
                   </div>
               }

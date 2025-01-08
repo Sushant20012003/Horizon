@@ -17,7 +17,7 @@ import store from '@/redux/store'
 import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
 import { RiPokerHeartsFill, RiPokerHeartsLine } from 'react-icons/ri'
 import { bookmarkUserProfilePost, commentUserProfilePost, deleteProfilePost, likeUserProfilePost } from '@/redux/profileSlice'
-import { bookmarkPost } from '@/redux/authSlice'
+import { bookmarkPost, setFollowingUser } from '@/redux/authSlice'
 
 export default function CommentDialog({ post, open, setOpen }) {
 
@@ -52,7 +52,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
             if (response.success) {
                 dispatch(addComment({ postId: post._id, comment: response.comment }));
-                dispatch(commentUserProfilePost({postId:post._id, comment: response.comment}));
+                dispatch(commentUserProfilePost({ postId: post._id, comment: response.comment }));
                 setText("")
             }
             console.log(response.message);
@@ -66,7 +66,7 @@ export default function CommentDialog({ post, open, setOpen }) {
     const likeDislikePostHandler = async () => {
 
         dispatch(likeDislikePost({ userId: user._id, postId: post._id }));
-        dispatch(likeUserProfilePost({userId: user._id, postId: post._id}));
+        dispatch(likeUserProfilePost({ userId: user._id, postId: post._id }));
         try {
             let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/like`, {
                 method: "GET",
@@ -102,7 +102,7 @@ export default function CommentDialog({ post, open, setOpen }) {
             response = await response.json();
             if (response.success) {
                 dispatch(deletePost(post?._id));
-                dispatch(deleteProfilePost({postId:post._id}));
+                dispatch(deleteProfilePost({ postId: post._id }));
                 console.log(response.message);
                 setOpen(false);
             }
@@ -120,7 +120,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
     const addToFavoriteHandler = async () => {
         dispatch(bookmarkPost({ postId: post._id }));
-        dispatch(bookmarkUserProfilePost({post: post}));
+        dispatch(bookmarkUserProfilePost({ post: post }));
         try {
             let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/bookmark`, {
                 method: 'POST',
@@ -137,6 +137,32 @@ export default function CommentDialog({ post, open, setOpen }) {
             console.log(error);
         }
     }
+
+
+    const followUnfollowHandler = async()=>{
+            try {
+                let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${post.author._id}`, {
+                    method:"POST",
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    credentials:'include'
+                });
+    
+                response = await response.json();
+    
+                if(response.success) {
+                    console.log(response.message);
+                    dispatch(setFollowingUser(post.author._id));
+                    
+                }
+    
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
 
 
     if (displayWidth > 768) {
@@ -170,7 +196,8 @@ export default function CommentDialog({ post, open, setOpen }) {
                                             </DialogTrigger>
                                             <DialogContent className="flex flex-col items-center text-center text-sm rounded-xl w-[80%] md:w-[550px]">
                                                 {
-                                                    !(post.author._id === user._id) && <button className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>
+                                                    !(user._id === post.author._id) ? user.following.includes(post.author._id) ? <button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button> : <button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">{user.followers.includes(post.author._id)?'Follow Back':'Follow'}</button> : null
+
                                                 }
                                                 <button className="cursor-pointer w-full p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Add to favorites</button>
                                                 {

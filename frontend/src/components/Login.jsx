@@ -3,7 +3,7 @@ import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthUser } from '@/redux/authSlice';
+import { setAuthUser} from '@/redux/authSlice';
 import store from '@/redux/store';
 
 export default function Login() {

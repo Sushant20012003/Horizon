@@ -84,7 +84,7 @@ export const addNewPost = async (req, res) => {
 export const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find().sort({ createdAt: -1 })
-            .populate({ path: 'author', select: 'username profilePicture' })
+            .populate({ path: 'author', select: 'username profilePicture followers' })
             .populate({
                 path: 'comments',
                 sort: { createdAt: -1 },
@@ -156,6 +156,8 @@ export const likePost = async (req, res) => {
                     postId,
                     message: 'Your post was disliked'
                 }
+                console.log(1);
+                
                 const postOwnerSocketId = getReceiverSocketId(postOwnerId);
                 io.to(postOwnerSocketId).emit('notification', notification);
 
@@ -177,10 +179,13 @@ export const likePost = async (req, res) => {
                     postId,
                     message: 'Your post was liked'
                 }
+                console.log(1);
+                
                 const postOwnerSocketId = getReceiverSocketId(postOwnerId);
                 io.to(postOwnerSocketId).emit('notification', notification);
 
             }
+            
 
             return res.status(200).json({ message: 'Post liked', success: true });
         }
