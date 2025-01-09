@@ -82,7 +82,7 @@ export default function Profile() {
                     {
                       isFollowing ?
                         <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={followUnfollowHandler}>Unfollow</button>
-                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600' onClick={followUnfollowHandler}>Follow</button>
+                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600 text-white' onClick={followUnfollowHandler}>Follow</button>
                     }
                   </div>
               }
@@ -104,7 +104,9 @@ export default function Profile() {
         <div className="border-t border-t-gray-200 ">
           <div className='flex gap-10 justify-center items-center'>
             <div className={`flex items-center gap-1 py-3 cursor-pointer text-gray-600 active:text-gray-800 ${activeTab === 'posts' && 'font-bold text-black'}`} onClick={() => setActiveTab('posts')}><MdGridOn className='size-[13px] ' /><span className={`text-[14px] font-semibold `}>POSTS</span></div>
-            <div className={`flex items-center gap-1 py-3 cursor-pointer text-gray-600 active:text-gray-800 ${activeTab === 'saved' && 'font-bold text-black'}`} onClick={() => setActiveTab('saved')}><LiaBookmark /><span className={`text-[14px] font-semibold `}>SAVED</span></div>
+            {
+              userProfile?._id === user._id  && <div className={`flex items-center gap-1 py-3 cursor-pointer text-gray-600 active:text-gray-800 ${activeTab === 'saved' && 'font-bold text-black'}`} onClick={() => setActiveTab('saved')}><LiaBookmark /><span className={`text-[14px] font-semibold `}>SAVED</span></div> 
+            }
           </div>
           <div className='grid grid-cols-3 gap-1'>
             {

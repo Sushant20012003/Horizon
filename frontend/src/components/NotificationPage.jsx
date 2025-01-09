@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { setIsNotificationVisible } from '@/redux/rtnSlice';
+import { setFollowingUser } from '@/redux/authSlice';
 
 export default function NotificationPage() {
 
@@ -11,6 +12,7 @@ export default function NotificationPage() {
     const navigate = useNavigate();
     const notificationRef = useRef(null);
     const dispatch = useDispatch();
+    const {user} = useSelector(store=>store.auth);
 
     // Handle click outside the notification box
     useEffect(() => {
@@ -29,6 +31,31 @@ export default function NotificationPage() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+
+    const followUnfollowHandler = async(id)=>{
+              try {
+                  let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${id}`, {
+                      method:"POST",
+                      headers:{
+                          'Content-Type':'application/json'
+                      },
+                      credentials:'include'
+                  });
+      
+                  response = await response.json();
+      
+                  if(response.success) {
+                      console.log(response.message);
+                      dispatch(setFollowingUser(id));
+                      
+                  }
+      
+              } catch (error) {
+                  console.log(error);
+                  
+              }
+          }
 
     return (
         <div className="relative ml-[16%] z-10">
@@ -53,7 +80,7 @@ export default function NotificationPage() {
                                         </Avatar>
                                         <p><span className='font-medium'>{notification?.userDetails?.username}</span>  <span className='font-thin'>{notification?.type === 'like'? 'liked your post.': 'following you.'}</span></p>
                                     </div>
-                                    <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600'>Follow</button>
+                                    <button className={`${user.following.includes(notification?.userId)?'bg-gray-400 hover:bg-gray-500 text-black':'bg-blue-500 hover:bg-blue-600'} py-1 px-3 rounded-[8px] text-sm font-medium `} onClick={()=>followUnfollowHandler(notification?.userId)}>{user.following.includes(notification?.userId)?'Unfollow':'Follow'}</button>
                                 </div>
                             )
                         })

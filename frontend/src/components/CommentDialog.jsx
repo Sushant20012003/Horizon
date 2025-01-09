@@ -278,7 +278,6 @@ export default function CommentDialog({ post, open, setOpen }) {
 
                 <Dialog open={open}>
                     <DialogContent onInteractOutside={() => setOpen(false)} className="min-h-[300px] h-[60vh] w-[90%] max-w-[500px] p-0 m-0 " >
-                        <VisuallyHidden> <DialogTitle>My Dialog Title</DialogTitle> </VisuallyHidden>
                         <div className="flex flex-col w-full ">
                             <h1 className='flex justify-center w-full font-semibold text-base p-2'>Commnets</h1>
                             <hr />
