@@ -13,19 +13,20 @@ import SearchComponent from './SearchComponent';
 
 export default function LeftSidebar() {
 
-    const {user} = useSelector(store=>store.auth);
+    const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [openCreate, setOpenCreate] = useState(false);
-    const {isNotificationVisible} = useSelector(store=>store.realTimeNotification);
+    const { isNotificationVisible } = useSelector(store => store.realTimeNotification);
     const [openSearch, setOpenSearch] = useState(false);
-    
+    const { selectedParticipant } = useSelector(store => store.conversation);
+
     const sidebarItems = [
         { icon: <Home />, text: "Home" },
         { icon: <Search />, text: "Search" },
         { icon: <PlusSquare />, text: "Create" },
-        { icon: <MessageCircle />, text: "Messages", hideOnMobile:true },
-        { icon: <Heart />, text: "Notifications", hideOnMobile:true },
+        { icon: <MessageCircle />, text: "Messages", hideOnMobile: true },
+        { icon: <Heart />, text: "Notifications", hideOnMobile: true },
         {
             icon: (
                 <Avatar className="w-6 h-6">
@@ -41,50 +42,50 @@ export default function LeftSidebar() {
 
 
 
-    const sidebarHandler = async(actionType) => {
-        if(actionType === "Logout") {
+    const sidebarHandler = async (actionType) => {
+        if (actionType === "Logout") {
             try {
                 let response = await fetch(`http://localhost:8000/api/v1/user/logout`, {
-                    method:'GET',
-                    credentials:'include'
+                    method: 'GET',
+                    credentials: 'include'
                 });
                 response = await response.json();
-    
-                if(response.success){
+
+                if (response.success) {
                     console.log(response.message);
                     dispatch(setAuthUser(null));
                     navigate('/login');
                 }
             } catch (error) {
                 console.log(error);
-                
+
             }
             return;
         }
-        if(actionType === "Create") {
+        if (actionType === "Create") {
             setOpenCreate(true);
             return;
         }
-        if(actionType === 'Home') {
+        if (actionType === 'Home') {
             navigate('/');
             return;
         }
-        if(actionType === 'Profile') {
+        if (actionType === 'Profile') {
             navigate(`/profile/${user._id}`);
             return;
         }
-        if(actionType === 'Messages') {
+        if (actionType === 'Messages') {
             navigate('/chat');
             return;
         }
-        if(actionType === 'Notifications') {
+        if (actionType === 'Notifications') {
             dispatch(setIsNotificationVisible(!isNotificationVisible));
             return;
         }
-        if(actionType === 'Search') {
+        if (actionType === 'Search') {
             setOpenSearch(true);
         }
-        
+
     }
 
     return (
@@ -107,50 +108,55 @@ export default function LeftSidebar() {
             {/* Mobile layout */}
 
             {/* Top bar */}
-            <div className="fixed inset-x-0 top-0 flex h-[50px] justify-between items-center border-b border-gray-300 p-4 bg-white z-50 lg:hidden">
-                {/* Left: LOGO */}
-                <h1 className="text-lg font-bold">LOGO</h1>
+            {
+                !selectedParticipant && <div className="fixed inset-x-0 top-0 flex h-[50px] justify-between items-center border-b border-gray-300 p-4 bg-white z-50 lg:hidden">
+                    {/* Left: LOGO */}
+                    <h1 className="text-lg font-bold">LOGO</h1>
 
-                {/* Right: Notification and Messages */}
-                <div className="flex gap-4">
-                    <div
-                        className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
-                        onClick={() => sidebarHandler('Notifications')}
-                    >
-                        <span>
-                            <Heart />
-                        </span>
-                        
-                    </div>
-                    <div
-                        className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
-                        onClick={() => sidebarHandler('Messages')}
-                    >
-                        <span>
-                            <MessageCircle />
-                        </span>
-                        
+                    {/* Right: Notification and Messages */}
+                    <div className="flex gap-4">
+                        <div
+                            className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
+                            onClick={() => sidebarHandler('Notifications')}
+                        >
+                            <span>
+                                <Heart />
+                            </span>
+
+                        </div>
+                        <div
+                            className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
+                            onClick={() => sidebarHandler('Messages')}
+                        >
+                            <span>
+                                <MessageCircle />
+                            </span>
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
 
             {/* Bottom navigation */}
 
-            <div className="fixed inset-x-0 bottom-0 flex justify-around items-center p-3 bg-white border-t border-gray-300 lg:hidden z-50">
-                {sidebarItems
-                    .filter((item) => !item.hideOnMobile) // Filter out Logout on mobile
-                    .map((item, index) => (
-                        <div
-                            key={index}
-                            className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
-                            onClick={() => sidebarHandler(item.text)}
-                        >
-                            <span>{item.icon}</span>
-                            
-                        </div>
-                    ))}
-            </div>
+            {
+                !selectedParticipant &&
+                <div className="fixed inset-x-0 bottom-0 flex justify-around items-center p-3 bg-white border-t border-gray-300 lg:hidden z-50">
+                    {sidebarItems
+                        .filter((item) => !item.hideOnMobile) // Filter out Logout on mobile
+                        .map((item, index) => (
+                            <div
+                                key={index}
+                                className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer"
+                                onClick={() => sidebarHandler(item.text)}
+                            >
+                                <span>{item.icon}</span>
+
+                            </div>
+                        ))}
+                </div>
+            }
 
             <CreatePost open={openCreate} setOpen={setOpenCreate} />
             <SearchComponent open={openSearch} setOpen={setOpenSearch} />

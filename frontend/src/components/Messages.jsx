@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useGetAllMessages } from '@/hooks/useGetAllMessages'
 import { useDispatch, useSelector } from 'react-redux';
 import store from '@/redux/store';
@@ -14,17 +14,18 @@ export default function Messages({ selectedUser }) {
     useGetRTM();
     const {messages} = useSelector(store=>store.chat);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     return (
         <div className='overflow-y-auto flex-1 p-4 '>
             <div className='flex justify-center mb-5'>
                 <div className="flex flex-col justify-center items-center gap-2">
                     <Avatar className="h-20 w-20">
-                        <AvatarImage src={selectedUser.profilePicture} />
+                        <AvatarImage src={selectedUser?.profilePicture} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <span>{selectedUser.username}</span>
-                    <Link><button className='bg-gray-200 px-3 py-1 rounded-[7px]'>View Profile</button></Link>
+                    <span>{selectedUser?.username}</span>
+                    <Link><button onClick={()=>navigate(`/profile/${selectedUser?._id}`)} className='bg-gray-200 px-3 py-1 rounded-[7px] hover:bg-gray-400 active:bg-gray-400 font-medium'>View Profile</button></Link>
                 </div>
             </div>
             <div className='flex flex-col gap-3'>
