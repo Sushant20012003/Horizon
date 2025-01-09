@@ -82,7 +82,7 @@ export default function Profile() {
                     {
                       isFollowing ?
                         <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={followUnfollowHandler}>Unfollow</button>
-                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600' onClick={followUnfollowHandler}>{user.followers.includes(userProfile?._id)?'Follow Back':'Follow'}</button>
+                        : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600' onClick={followUnfollowHandler}>Follow</button>
                     }
                   </div>
               }

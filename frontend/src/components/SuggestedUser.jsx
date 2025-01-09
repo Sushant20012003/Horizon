@@ -35,7 +35,6 @@ export default function SuggestedUser() {
               }
           }
     
-          console.log(user.followers);
           
     return (
         <div className='mt-8  w-[300px]'>
@@ -57,7 +56,7 @@ export default function SuggestedUser() {
                                     <Link to={`/profile/${suggestedUser._id}`}><h1>{suggestedUser.username}</h1></Link>
                                 </div>
                                 {
-                                    user.following.includes(suggestedUser?._id)?<span onClick={()=>followUnfollowHandler(suggestedUser?._id)} className="cursor-pointer text-sm font-medium text-gray-400 hover:text-black">Unfollow</span>:<span onClick={()=>followUnfollowHandler(suggestedUser?._id)} className="cursor-pointer text-sm font-medium text-blue-600 hover:text-black">{user.followers.includes(suggestedUser?._id)?'Follow Back':'Follow'}</span>
+                                    user.following.includes(suggestedUser?._id)?<span onClick={()=>followUnfollowHandler(suggestedUser?._id)} className="cursor-pointer text-sm font-medium text-gray-400 hover:text-black">Unfollow</span>:<span onClick={()=>followUnfollowHandler(suggestedUser?._id)} className="cursor-pointer text-sm font-medium text-blue-600 hover:text-black">Follow</span>
                                 }
                             </div>
                         )

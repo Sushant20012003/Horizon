@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import store from '@/redux/store';
 import { setIsNotificationVisible } from '@/redux/rtnSlice';
+import SearchComponent from './SearchComponent';
 
 
 
@@ -17,6 +18,7 @@ export default function LeftSidebar() {
     const navigate = useNavigate();
     const [openCreate, setOpenCreate] = useState(false);
     const {isNotificationVisible} = useSelector(store=>store.realTimeNotification);
+    const [openSearch, setOpenSearch] = useState(false);
     
     const sidebarItems = [
         { icon: <Home />, text: "Home" },
@@ -24,7 +26,6 @@ export default function LeftSidebar() {
         { icon: <PlusSquare />, text: "Create" },
         { icon: <MessageCircle />, text: "Messages", hideOnMobile:true },
         { icon: <Heart />, text: "Notifications", hideOnMobile:true },
-        { icon: <TrendingUp />, text: "Explore" },
         {
             icon: (
                 <Avatar className="w-6 h-6">
@@ -80,7 +81,9 @@ export default function LeftSidebar() {
             dispatch(setIsNotificationVisible(!isNotificationVisible));
             return;
         }
-        alert(actionType)
+        if(actionType === 'Search') {
+            setOpenSearch(true);
+        }
         
     }
 
@@ -150,7 +153,7 @@ export default function LeftSidebar() {
             </div>
 
             <CreatePost open={openCreate} setOpen={setOpenCreate} />
-
+            <SearchComponent open={openSearch} setOpen={setOpenSearch} />
         </div>
 
     );

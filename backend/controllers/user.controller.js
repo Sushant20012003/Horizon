@@ -105,28 +105,28 @@ export const getProfile = async (req, res) => {
                     },
                 },
                 {
-                    path:'author',
-                    select:'username profilePicture'
+                    path: 'author',
+                    select: 'username profilePicture'
                 }]
             })
-            .populate({ 
+            .populate({
                 path: 'bookmarks',
-                populate:[ {
-                    path:'comments',
-                    sort:{createdAt:-1},
-                    populate:{
-                        path:'author',
-                        select:'username profilePicture'
+                populate: [{
+                    path: 'comments',
+                    sort: { createdAt: -1 },
+                    populate: {
+                        path: 'author',
+                        select: 'username profilePicture'
                     }
-                    
+
                 },
                 {
-                    path:'author',
+                    path: 'author',
                     select: 'username profilePicture'
                 }
                 ]
             });
-            
+
         return res.status(200).json({ user, success: true });
 
     } catch (error) {
@@ -205,7 +205,7 @@ export const followOrUnfollow = async (req, res) => {
 
         const isFollowing = user.following.includes(targetUserId);
         const targetUserSocketId = getReceiverSocketId(targetUserId);
-        
+
 
         if (isFollowing) {
             await Promise.all([          //use when handling more than one document of mongodb
@@ -216,9 +216,9 @@ export const followOrUnfollow = async (req, res) => {
             // real time notification
 
             const notification = {
-                type:'unfollow',
-                userDetails:user,
-                userId:userId
+                type: 'unfollow',
+                userDetails: user,
+                userId: userId
             }
             io.to(targetUserSocketId).emit('notification', notification);
 
@@ -233,9 +233,9 @@ export const followOrUnfollow = async (req, res) => {
             // real time notification
 
             const notification = {
-                type:'follow',
-                userDetails:user,
-                userId:userId
+                type: 'follow',
+                userDetails: user,
+                userId: userId
             }
             io.to(targetUserSocketId).emit('notification', notification);
 
@@ -247,4 +247,24 @@ export const followOrUnfollow = async (req, res) => {
 
     }
 
+}
+
+export const searchUser = async (req, res)=> {
+    try {
+        const { username } = req.body;
+        if (username) {
+            const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('username profilePicture').lean();    //lean(): tell the query to return plain JavaScript objects instead of Mongoose documents. mean we can make change and use save(), remove() etc.
+
+            if (users) {
+                return res.status(200).json({ success: true, users })
+            }
+            else {
+                return res.status(400).json({ success: false, message: 'User Not Found' });
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+
+    }
 }

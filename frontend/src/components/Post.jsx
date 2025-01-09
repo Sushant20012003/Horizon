@@ -202,10 +202,10 @@ const Post = ({ post }) => {
                         </DialogTrigger>
                         <DialogContent className="flex flex-col items-center text-center text-sm rounded-xl w-[80%] md:w-[550px]" onInteractOutside={() => setOpen(false)}>
                             {
-                                !(user._id === post.author._id)? user.following.includes(post.author._id)?<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>:<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">{user.followers.includes(post.author._id)?'Follow Back':'Follow'}</button>:null
+                                !(user._id === post.author._id)? user.following.includes(post.author._id)?<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Unfollow</button>:<button onClick={followUnfollowHandler} className="cursor-pointer w-full text-red-600 font-bold p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Follow</button>:null
 
                             }
-                            <button className="cursor-pointer w-full p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">Add to favorites</button>
+                            <button onClick={addToFavoriteHandler} className="cursor-pointer w-full p-3 rounded hover:bg-slate-100 border-b-[1px] border-black">{!user.bookmarks.includes(post._id)?'Add to favorites':'Remove from favorites'}</button>
                             {
                                 user._id === post.author._id && <button className="flex cursor-pointer w-full text-red-600 font-bold  p-3 rounded hover:bg-slate-100 border-b-[1px] border-black justify-center items-center" onClick={deletePostHandler}>
                                     {

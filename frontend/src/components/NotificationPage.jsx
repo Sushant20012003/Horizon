@@ -11,10 +11,6 @@ export default function NotificationPage() {
     const navigate = useNavigate();
     const notificationRef = useRef(null);
     const dispatch = useDispatch();
-    console.log(4);
-    
-    console.log(notification);
-    
 
     // Handle click outside the notification box
     useEffect(() => {
