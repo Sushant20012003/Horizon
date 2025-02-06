@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthUser } from '@/redux/authSlice';
+import { setAuthUser, setToken } from '@/redux/authSlice';
 import store from '@/redux/store';
+import { isTokenExpired } from '@/lib/isTokenExpired';
 
 export default function Signup() {
     const [userData, setUserData] = useState({ username: '', email: '', password: '' });
     const navigate= useNavigate();
     const dispatch = useDispatch();
-    const {user} = useSelector(store=>store.auth);
+    const {user, token} = useSelector(store=>store.auth);
 
     const signupHandler = async (e) => {
         e.preventDefault();
@@ -30,6 +31,7 @@ export default function Signup() {
             if (response.success) {
                 console.log(response.message);
                 dispatch(setAuthUser(response.user));
+                dispatch(setToken(response.token));
                 setUserData({ username: '', email: '', password: '' });
                 navigate('/');
             }
@@ -39,7 +41,7 @@ export default function Signup() {
     };
 
     useEffect(()=>{
-        if(user) navigate('/');
+        if(token && !isTokenExpired(token)) navigate('/');
       },[]);
 
     return (

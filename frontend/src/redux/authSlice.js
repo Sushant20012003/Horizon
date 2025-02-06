@@ -4,7 +4,8 @@ const authSlice = createSlice({
     name:"auth",
     initialState:{
         user:null,
-        suggestedUsers:[]
+        suggestedUsers:[],
+        token:null
     },
     reducers:{
         //actions
@@ -19,6 +20,9 @@ const authSlice = createSlice({
             else {
                 state.user.bookmarks.push(postId);
             }
+        },
+        setToken:(state, action) => {
+            state.token = action.payload;
         },
         setSuggestedUsers:(state, action) => {
             state.suggestedUsers = action.payload;
@@ -50,5 +54,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { setAuthUser, bookmarkPost, setSuggestedUsers, editProfile, setFollowingUser, setFollowerUser} = authSlice.actions;
+export const { setAuthUser, setToken,bookmarkPost, setSuggestedUsers, editProfile, setFollowingUser, setFollowerUser} = authSlice.actions;
 export default authSlice.reducer;

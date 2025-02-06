@@ -3,14 +3,14 @@ import styles from '../componentsCss/Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthUser} from '@/redux/authSlice';
+import { setAuthUser, setToken} from '@/redux/authSlice';
 import store from '@/redux/store';
 
 export default function Login() {
   const [userData, setUserData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user} = useSelector(store=>store.auth);
+  const {user, token} = useSelector(store=>store.auth);
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ export default function Login() {
         console.log(response.message);
         setUserData({ email: '', password: '' });
         dispatch(setAuthUser(response.user));
+        dispatch(setToken(response.token));
         navigate('/')
       }
       else {
@@ -47,7 +48,7 @@ export default function Login() {
 
 
   useEffect(()=>{
-    if(user) navigate('/');
+    if(token && !isTokenExpired(token)) navigate('/');
   },[]);
 
 
