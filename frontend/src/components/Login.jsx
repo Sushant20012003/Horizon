@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser, setToken} from '@/redux/authSlice';
 import store from '@/redux/store';
+import { isTokenExpired } from '@/lib/isTokenExpired';
 
 export default function Login() {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -48,7 +49,7 @@ export default function Login() {
 
 
   useEffect(()=>{
-    if(token && !isTokenExpired(token)) navigate('/');
+    if(token) navigate('/');
   },[]);
 
 
@@ -56,7 +57,7 @@ export default function Login() {
     <div className={styles.flex}>
       <form className={styles.formContainer} onSubmit={loginHandler}>
         <div className={styles.header}>
-          <h1>LOGO</h1>
+          <h1 className='font-mono font-bold'>Horizon</h1>
           <p>Welcome back! We're happy to see you again. Log in to continue your journey</p>
         </div>
         <div>

@@ -41,14 +41,14 @@ export default function Signup() {
     };
 
     useEffect(()=>{
-        if(token && !isTokenExpired(token)) navigate('/');
+        if(token) navigate('/');
       },[]);
 
     return (
         <div className={styles.flex}>
             <form className={styles.formContainer} onSubmit={signupHandler}>
                 <div className={styles.header}>
-                    <h1>LOGO</h1>
+                    <h1 className='font-mono font-bold'>Horizon</h1>
                     <p>Create an account to enjoy personalized features and stay updated with the latest content. Sign up today and join our community!</p>
                 </div>
                 <div>

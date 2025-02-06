@@ -2,7 +2,7 @@ import { Heart, Home, LogOut, MessageCircle, PlusSquare, Search, TrendingUp } fr
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthUser } from '@/redux/authSlice';
+import { setAuthUser, setToken } from '@/redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import store from '@/redux/store';
@@ -54,6 +54,7 @@ export default function LeftSidebar() {
                 if (response.success) {
                     console.log(response.message);
                     dispatch(setAuthUser(null));
+                    dispatch(setToken(null));
                     navigate('/login');
                 }
             } catch (error) {
@@ -92,7 +93,7 @@ export default function LeftSidebar() {
         <div className='z-30'>
             {/* Sidebar for large screens */}
             <div className="fixed hidden lg:flex flex-col top-0 left-0 z-10 px-4 border-r border-gray-300 w-[16%] h-screen bg-white">
-                <h1 className="text-lg font-bold mb-4">LOGO</h1>
+                <h1 className="md:text-2xl font-bold mb-4 font-mono">Horizon</h1>
                 {sidebarItems.map((item, index) => (
                     <div
                         key={index}
@@ -111,7 +112,7 @@ export default function LeftSidebar() {
             {
                 !selectedParticipant && <div className="fixed inset-x-0 top-0 flex h-[50px] justify-between items-center border-b border-gray-300 p-4 bg-white z-50 lg:hidden">
                     {/* Left: LOGO */}
-                    <h1 className="text-lg font-bold">LOGO</h1>
+                    <h1 className="text-xl font-bold font-mono">Horizon</h1>
 
                     {/* Right: Notification and Messages */}
                     <div className="flex gap-4">
