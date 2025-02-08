@@ -8,6 +8,7 @@ import { Loader2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import store from '@/redux/store';
 import { setPosts, addPost } from '@/redux/postSlice';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function CreatePost({ open, setOpen }) {
 
@@ -37,7 +38,7 @@ export default function CreatePost({ open, setOpen }) {
         setLoading(true); // Set loading to true
 
         try {
-            let response = await fetch('http://localhost:8000/api/v1/post/addpost', {
+            let response = await fetch(`${BASE_URL}/api/v1/post/addpost`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'

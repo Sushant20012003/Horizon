@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser, setToken } from '@/redux/authSlice';
 import store from '@/redux/store';
 import { isTokenExpired } from '@/lib/isTokenExpired';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function Signup() {
     const [userData, setUserData] = useState({ username: '', email: '', password: '' });
@@ -19,7 +20,7 @@ export default function Signup() {
             return;
         }
         try {
-            let response = await fetch('http://localhost:8000/api/v1/user/register', {
+            let response = await fetch(`${BASE_URL}/api/v1/user/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -16,6 +16,7 @@ import { setNotification } from './redux/rtnSlice';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotificationPage from './components/NotificationPage';
 import { setFollowerUser } from './redux/authSlice';
+import { BASE_URL } from './config/apiConfig';
 
 const browserRouter = createBrowserRouter([
   {
@@ -57,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const socketio = io('http://localhost:8000', {
+      const socketio = io(`${BASE_URL}`, {
         query: {
           userId: user._id
         }

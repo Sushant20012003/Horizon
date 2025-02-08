@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Posts from './Posts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '@/redux/postSlice';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function Feed() {
 
@@ -9,7 +10,7 @@ export default function Feed() {
 
     const getAllPost = async () => {
         try {
-            let response = await fetch('http://localhost:8000/api/v1/post/all',{
+            let response = await fetch(`${BASE_URL}/api/v1/post/all`,{
                 method: 'GET',
                 credentials:'include'
             });

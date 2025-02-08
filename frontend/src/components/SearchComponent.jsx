@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from './ui/dialog';
 import { CiSearch } from "react-icons/ci";
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function SearchComponent({ open, setOpen }) {
 
@@ -13,7 +14,7 @@ export default function SearchComponent({ open, setOpen }) {
     useEffect(() => {
         if (text) {
             const fetchUsers = async () => {
-                let response = await fetch('http://localhost:8000/api/v1/user/search', {
+                let response = await fetch(`${BASE_URL}/api/v1/user/search`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

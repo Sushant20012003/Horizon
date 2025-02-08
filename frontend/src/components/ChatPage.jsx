@@ -10,6 +10,7 @@ import { setMessages, setNewMessage } from '@/redux/chatSlice';
 import { use } from 'react';
 import { useGetAllMessages } from '@/hooks/useGetAllMessages';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function ChatPage() {
 
@@ -27,7 +28,7 @@ export default function ChatPage() {
 
     const sendMessageHandler = async (receiverId) => {
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/message/send/${receiverId}`, {
+            let response = await fetch(`${BASE_URL}/api/v1/message/send/${receiverId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

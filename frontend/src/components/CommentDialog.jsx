@@ -18,6 +18,7 @@ import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
 import { RiPokerHeartsFill, RiPokerHeartsLine } from 'react-icons/ri'
 import { bookmarkUserProfilePost, commentUserProfilePost, deleteProfilePost, likeUserProfilePost } from '@/redux/profileSlice'
 import { bookmarkPost, setFollowingUser } from '@/redux/authSlice'
+import { BASE_URL } from '@/config/apiConfig'
 
 export default function CommentDialog({ post, open, setOpen }) {
 
@@ -40,7 +41,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
     const addCommentHandler = async () => {
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/comment`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/comment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ export default function CommentDialog({ post, open, setOpen }) {
         dispatch(likeDislikePost({ userId: user._id, postId: post._id }));
         dispatch(likeUserProfilePost({ userId: user._id, postId: post._id }));
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/like`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/like`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +95,7 @@ export default function CommentDialog({ post, open, setOpen }) {
     const deletePostHandler = async () => {
         setLoading(true)
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post?._id}/delete`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post?._id}/delete`, {
                 method: "DELETE",
                 credentials: 'include'
             });
@@ -122,7 +123,7 @@ export default function CommentDialog({ post, open, setOpen }) {
         dispatch(bookmarkPost({ postId: post._id }));
         dispatch(bookmarkUserProfilePost({ post: post }));
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/bookmark`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/bookmark`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -141,7 +142,7 @@ export default function CommentDialog({ post, open, setOpen }) {
 
     const followUnfollowHandler = async()=>{
             try {
-                let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${post.author._id}`, {
+                let response = await fetch(`${BASE_URL}/api/v1/user/followorunfollow/${post.author._id}`, {
                     method:"POST",
                     headers:{
                         'Content-Type':'application/json'

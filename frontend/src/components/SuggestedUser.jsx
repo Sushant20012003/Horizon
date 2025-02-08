@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { setFollowingUser } from '@/redux/authSlice';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function SuggestedUser() {
 
@@ -13,7 +14,7 @@ export default function SuggestedUser() {
 
     const followUnfollowHandler = async(id)=>{
               try {
-                  let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${id}`, {
+                  let response = await fetch(`${BASE_URL}/api/v1/user/followorunfollow/${id}`, {
                       method:"POST",
                       headers:{
                           'Content-Type':'application/json'

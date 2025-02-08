@@ -16,6 +16,7 @@ import { MdOutlineVerifiedUser } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import { setSelectedParticipant } from '@/redux/conversationSlice';
+import { BASE_URL } from '@/config/apiConfig';
 
 
 export default function Profile() {
@@ -40,7 +41,7 @@ export default function Profile() {
 
   const followUnfollowHandler = async () => {
     try {
-      let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${userProfile?._id}`, {
+      let response = await fetch(`${BASE_URL}/api/v1/user/followorunfollow/${userProfile?._id}`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

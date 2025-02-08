@@ -8,6 +8,7 @@ import CreatePost from './CreatePost';
 import store from '@/redux/store';
 import { setIsNotificationVisible } from '@/redux/rtnSlice';
 import SearchComponent from './SearchComponent';
+import { BASE_URL } from '@/config/apiConfig';
 
 
 
@@ -45,7 +46,7 @@ export default function LeftSidebar() {
     const sidebarHandler = async (actionType) => {
         if (actionType === "Logout") {
             try {
-                let response = await fetch(`http://localhost:8000/api/v1/user/logout`, {
+                let response = await fetch(`${BASE_URL}/api/v1/user/logout`, {
                     method: 'GET',
                     credentials: 'include'
                 });

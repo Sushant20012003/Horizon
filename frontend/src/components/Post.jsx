@@ -21,6 +21,7 @@ import { addComment, deletePost, likeDislikePost } from '@/redux/postSlice';
 import { bookmarkPost, setFollowingUser } from "@/redux/authSlice";
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router-dom";
+import { BASE_URL } from "@/config/apiConfig";
 
 
 
@@ -54,7 +55,7 @@ const Post = ({ post }) => {
 
         dispatch(likeDislikePost({userId:user._id, postId:post._id}));
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/like`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/like`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -81,7 +82,7 @@ const Post = ({ post }) => {
     const deletePostHandler = async () => {
         setLoading(true)
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post?._id}/delete`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post?._id}/delete`, {
                 method: "DELETE",
                 credentials:'include'
             });
@@ -108,7 +109,7 @@ const Post = ({ post }) => {
 
     const addCommnetHandler = async() => {
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/comment`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/comment`, {
                 method:"POST",
                 headers:{
                     "Content-Type": "application/json",
@@ -138,7 +139,7 @@ const Post = ({ post }) => {
     const addToFavoriteHandler = async() =>{
         dispatch(bookmarkPost({postId: post._id}));
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/post/${post._id}/bookmark`, {
+            let response = await fetch(`${BASE_URL}/api/v1/post/${post._id}/bookmark`, {
                 method:'POST',
                 headers:{
                     "Content-Type": "application/json",
@@ -156,7 +157,7 @@ const Post = ({ post }) => {
 
     const followUnfollowHandler = async()=>{
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${post.author._id}`, {
+            let response = await fetch(`${BASE_URL}/api/v1/user/followorunfollow/${post.author._id}`, {
                 method:"POST",
                 headers:{
                     'Content-Type':'application/json'

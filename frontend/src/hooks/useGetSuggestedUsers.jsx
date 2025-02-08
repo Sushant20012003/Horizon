@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/config/apiConfig";
 import { setSuggestedUsers } from "@/redux/authSlice";
 import { useDispatch } from "react-redux";
 
@@ -5,7 +6,7 @@ const useGetSuggestedUsers = async()=>{
 
     const dispatch = useDispatch();
 
-    let response = await fetch('http://localhost:8000/api/v1/user/suggested', {
+    let response = await fetch(`${BASE_URL}/api/v1/user/suggested`, {
         method:'GET', 
         credentials:'include'
     });

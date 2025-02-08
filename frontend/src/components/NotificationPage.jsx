@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { setIsNotificationVisible } from '@/redux/rtnSlice';
 import { setFollowingUser } from '@/redux/authSlice';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function NotificationPage() {
 
@@ -35,7 +36,7 @@ export default function NotificationPage() {
 
     const followUnfollowHandler = async (id) => {
         try {
-            let response = await fetch(`http://localhost:8000/api/v1/user/followorunfollow/${id}`, {
+            let response = await fetch(`${BASE_URL}/api/v1/user/followorunfollow/${id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

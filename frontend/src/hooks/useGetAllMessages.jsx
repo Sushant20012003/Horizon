@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/config/apiConfig";
 import { setMessages } from "@/redux/chatSlice";
 import store from "@/redux/store";
 import { useEffect } from "react"
@@ -10,7 +11,7 @@ export const useGetAllMessages = () => {
 
     useEffect(() => {
         const fetchAllMessages = async () => {
-            let response = await fetch(`http://localhost:8000/api/v1/message/all/${selectedParticipant?._id}`, {
+            let response = await fetch(`${BASE_URL}/api/v1/message/all/${selectedParticipant?._id}`, {
                 method: 'GET',
                 credentials: 'include'
             });

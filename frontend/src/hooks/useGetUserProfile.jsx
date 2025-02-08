@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/config/apiConfig";
 import { setUserProfile } from "@/redux/profileSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -7,7 +8,7 @@ const useGetUserProfile =(userId) =>{
     useEffect(()=>{
         const fetchUserProfile = async()=>{
             try {
-                let response = await fetch(`http://localhost:8000/api/v1/user/profile/${userId}`, {
+                let response = await fetch(`${BASE_URL}/api/v1/user/profile/${userId}`, {
                     method:'GET',
                     credentials:'include'
                 });

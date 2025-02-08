@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { editProfile } from '@/redux/authSlice';
 import { readFileDataURL } from '@/lib/utils';
+import { BASE_URL } from '@/config/apiConfig';
 
 export default function EditProfile() {
 
@@ -38,7 +39,7 @@ export default function EditProfile() {
         formData.append('profilePicture', input.profilePicture);
 
         try {
-            let response = await fetch('http://localhost:8000/api/v1/user/profile/edit', {
+            let response = await fetch(`${BASE_URL}/api/v1/user/profile/edit`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'
