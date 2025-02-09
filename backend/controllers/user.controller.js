@@ -29,7 +29,7 @@ export const register = async (req, res) => {
         user.password = undefined;
 
         const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '7d' });
-        return res.cookie('token', token, { httpOnly: true, sameSite: 'strict', secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
+        return res.cookie('horizon_token', token, { httpOnly: true, sameSite: 'strict', secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
             .send({
                 message: `Account created successfully`,
                 success: true,
@@ -64,7 +64,7 @@ export const login = async (req, res) => {
         user.password = undefined;
 
         const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '7d' });
-        return res.cookie('token', token, { httpOnly: true, sameSite: 'strict', secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
+        return res.cookie('horizon_token', token, { httpOnly: true, sameSite: 'strict', secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
             .send({
                 message: `Welcome back ${user.username}`,
                 success: true,
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        return res.cookie("token", "", { maxAge: 0 }).json({ message: "Logged out successfully", success: true })
+        return res.cookie("horizon_token", "", { maxAge: 0 }).json({ message: "Logged out successfully", success: true })
     } catch (error) {
         console.log(error);
 
