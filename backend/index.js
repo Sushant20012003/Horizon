@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());                      //used to store cookie
 app.use(urlencoded({extended:true}));
 app.use(cors({
-    origin: 'http://localhost:5173',  // Frontend URL
+    origin: 'https://horizon-appv1.onrender.com',  // Frontend URL
     credentials: true  // Allow cookies to be sent and received
 }));
 
