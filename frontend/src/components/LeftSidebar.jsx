@@ -56,6 +56,12 @@ export default function LeftSidebar() {
                     console.log(response.message);
                     dispatch(setAuthUser(null));
                     dispatch(setToken(null));
+                    dispatch(setMessages([]));
+                    dispatch(setOnlineUsers([]));
+                    dispatch(setCoversationParticipants([]));
+                    dispatch(setPosts([]));
+                    dispatch(setUserProfile(null));
+                    dispatch(setNotification([]));
                     navigate('/login');
                 }
             } catch (error) {

@@ -15,8 +15,12 @@ import { setFollowingUser } from '@/redux/authSlice';
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
-import { setSelectedParticipant } from '@/redux/conversationSlice';
+import { setCoversationParticipants, setSelectedParticipant } from '@/redux/conversationSlice';
 import { BASE_URL } from '@/config/apiConfig';
+import { setMessages, setOnlineUsers } from '@/redux/chatSlice';
+import { setPosts } from '@/redux/postSlice';
+import { setUserProfile } from '@/redux/profileSlice';
+import { setNotification } from '@/redux/rtnSlice';
 
 
 export default function Profile() {
@@ -64,6 +68,33 @@ export default function Profile() {
   }
 
 
+  const handleLogout = async () => {
+    try {
+      let response = await fetch(`${BASE_URL}/api/v1/user/logout`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      response = await response.json();
+
+      if (response.success) {
+        console.log(response.message);
+        dispatch(setAuthUser(null));
+        dispatch(setToken(null));
+        dispatch(setMessages([]));
+        dispatch(setOnlineUsers([]));
+        dispatch(setCoversationParticipants([]));
+        dispatch(setPosts([]));
+        dispatch(setUserProfile(null));
+        dispatch(setNotification([]));
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+
 
   return (
     <div className='flex w-[100vw] justify-center lg:pl-[15%]'>
@@ -92,7 +123,7 @@ export default function Profile() {
                             <button className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400' onClick={followUnfollowHandler}>Unfollow</button>
                             : <button className='bg-blue-500 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-blue-600 text-white' onClick={followUnfollowHandler}>Follow</button>
                         }
-                        <button onClick={()=>{navigate('/chat'); dispatch(setSelectedParticipant({_id:userProfile?._id, username:userProfile?.username, profilePicture:userProfile?.profilePicture}))}} className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>Message</button>
+                        <button onClick={() => { navigate('/chat'); dispatch(setSelectedParticipant({ _id: userProfile?._id, username: userProfile?.username, profilePicture: userProfile?.profilePicture })) }} className='bg-gray-300 py-1 px-3 rounded-[8px] text-sm font-medium hover:bg-gray-400'>Message</button>
                       </div>
                   }
                 </div>
@@ -126,11 +157,14 @@ export default function Profile() {
                 <pre>{userProfile?.bio}</pre>
                 {
                   user._id === userProfile?._id ?
-                  <button onClick={()=>navigate('/profile/edit')} className='bg-gray-300 w-1/2 py-1 rounded-[10px] mt-2 font-medium active:bg-gray-400'>Edit profile</button>
-                  :<div className='flex gap-2 mt-2'>
-                    <button onClick={followUnfollowHandler} className={`w-full py-1 rounded-[10px] font-medium  ${isFollowing? 'bg-gray-400 ':'bg-blue-600 text-white'}`}>{isFollowing?'Unfollow':'Follow'}</button>
-                    <button onClick={()=>{navigate('/chat'); dispatch(setSelectedParticipant({_id:userProfile?._id, username:userProfile?.username, profilePicture:userProfile?.profilePicture}))}} className='w-full py-1 rounded-[10px] bg-gray-400 font-medium'>Message</button>
-                  </div>
+                    <div>
+                      <button onClick={() => navigate('/profile/edit')} className='bg-gray-300 w-1/2 py-1 rounded-[10px] mt-2 font-medium active:bg-gray-400'>Edit profile</button>
+                      <button onClick={handleLogout} className='bg-gray-300 w-1/2 py-1 rounded-[10px] mt-2 font-medium text-red-500 active:bg-gray-400'>Logout</button>
+                    </div>
+                    : <div className='flex gap-2 mt-2'>
+                      <button onClick={followUnfollowHandler} className={`w-full py-1 rounded-[10px] font-medium  ${isFollowing ? 'bg-gray-400 ' : 'bg-blue-600 text-white'}`}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
+                      <button onClick={() => { navigate('/chat'); dispatch(setSelectedParticipant({ _id: userProfile?._id, username: userProfile?.username, profilePicture: userProfile?.profilePicture })) }} className='w-full py-1 rounded-[10px] bg-gray-400 font-medium'>Message</button>
+                    </div>
                 }
               </div>
             </div>
