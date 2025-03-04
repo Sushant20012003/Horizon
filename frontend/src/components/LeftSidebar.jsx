@@ -6,9 +6,13 @@ import { setAuthUser, setToken } from '@/redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import store from '@/redux/store';
-import { setIsNotificationVisible } from '@/redux/rtnSlice';
+import { setIsNotificationVisible, setNotification } from '@/redux/rtnSlice';
 import SearchComponent from './SearchComponent';
 import { BASE_URL } from '@/config/apiConfig';
+import { setMessages, setOnlineUsers } from '@/redux/chatSlice';
+import { setCoversationParticipants } from '@/redux/conversationSlice';
+import { setPosts } from '@/redux/postSlice';
+import { setUserProfile } from '@/redux/profileSlice';
 
 
 

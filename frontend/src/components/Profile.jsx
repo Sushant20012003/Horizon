@@ -11,7 +11,7 @@ import { LiaBookmark } from "react-icons/lia";
 import { FaRegHeart } from "react-icons/fa";
 import { FiMessageCircle } from "react-icons/fi";
 import CommentDialog from './CommentDialog';
-import { setFollowingUser } from '@/redux/authSlice';
+import { setAuthUser, setFollowingUser, setToken } from '@/redux/authSlice';
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
