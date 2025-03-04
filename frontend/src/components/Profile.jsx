@@ -157,7 +157,7 @@ export default function Profile() {
                 <pre>{userProfile?.bio}</pre>
                 {
                   user._id === userProfile?._id ?
-                    <div>
+                    <div className='flex gap-2'>
                       <button onClick={() => navigate('/profile/edit')} className='bg-gray-300 w-1/2 py-1 rounded-[10px] mt-2 font-medium active:bg-gray-400'>Edit profile</button>
                       <button onClick={handleLogout} className='bg-gray-300 w-1/2 py-1 rounded-[10px] mt-2 font-medium text-red-500 active:bg-gray-400'>Logout</button>
                     </div>
